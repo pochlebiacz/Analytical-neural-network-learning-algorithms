@@ -18,3 +18,6 @@ class Dataset(torch.utils.data.Dataset):
 # Y = interset[:][1].reshape(1, -1).T
 # W2 = torch.linalg.pinv(H) @ Y.reshape(1, -1, 1)
 # model.fc2.bias.data, model.fc2.weight.data = W2[0][0], W2[0][1:].T
+
+#R2->R1
+#R3->R1
