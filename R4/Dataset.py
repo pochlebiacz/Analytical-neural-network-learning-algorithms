@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, x, y):
