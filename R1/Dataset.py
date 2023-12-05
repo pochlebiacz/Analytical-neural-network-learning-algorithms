@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, x, y):
@@ -12,12 +13,18 @@ class Dataset(torch.utils.data.Dataset):
         return self.x[idx], self.y[idx]
 
 
-# ELM with fc2 bias
-# V = activation(model.fc1.bias.data.reshape(-1, 1) + model.fc1.weight.data @ interset[:][0].reshape(1, -1))
-# H = torch.concatenate([torch.ones(1, len(interset)), V], dim=0).T
-# Y = interset[:][1].reshape(1, -1).T
-# W2 = torch.linalg.pinv(H) @ Y.reshape(1, -1, 1)
-# model.fc2.bias.data, model.fc2.weight.data = W2[0][0], W2[0][1:].T
+class ELM(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super().__init__()
+        self.fc1 = nn.Linear(input_size, hidden_size)
+        self.act = nn.Sigmoid()
+        self.fc2 = nn.Linear(hidden_size, output_size)
 
-#R2->R1
-#R3->R1
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.act(x)
+        x = self.fc2(x)
+        return x
+
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
